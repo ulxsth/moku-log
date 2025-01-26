@@ -26,9 +26,13 @@ client.once('ready', () => {
     })
   )
     .then(async () => {
-      const token = process.env.DISCORD_TOKEN!;
-      const appId = process.env.DISCORD_APP_ID!;
-      const guildId = process.env.DISCORD_GUILD_ID!;
+      const token = process.env.DISCORD_TOKEN;
+      const appId = process.env.DISCORD_APP_ID;
+      const guildId = process.env.DISCORD_GUILD_ID;
+      if (!token || !appId || !guildId) {
+        console.error('環境変数 "DISCORD_TOKEN", "DISCORD_APP_ID", "DISCORD_GUILD_ID" のいずれかが設定されていません。設定ファイルを確認してください');
+        process.exit(1);
+      }
 
       const rest = new REST().setToken(token);
       const data = await rest.put(Routes.applicationGuildCommands(appId, guildId), { body: commandsJSON }) as any;
