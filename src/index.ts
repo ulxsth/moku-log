@@ -21,6 +21,7 @@ client.once('ready', () => {
 
       if ('data' in command && 'execute' in command) {
         commands.set(command.data.name, command);
+        commandsJSON.push(command.data.toJSON());
       } else {
         console.log(`[WARN] ${file} には data または execute が実装されていないため、読み込みをスキップします`);
       }
