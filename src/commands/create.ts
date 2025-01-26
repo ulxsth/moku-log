@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { CommandInteraction } from 'discord.js';
 
 const CMD_NAME = 'create';
-const CMD_DESCRIPTION = '新しいイベントを作成します（実行後に登録フォームが表示されます）';
+const CMD_DESCRIPTION = '新しいアクティビティを作成します（実行後に登録フォームが表示されます）';
 
 export const data = new SlashCommandBuilder()
   .setName(CMD_NAME)
