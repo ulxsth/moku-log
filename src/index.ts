@@ -11,7 +11,7 @@ const commandsJSON: any[] = []
 client.once('ready', () => {
   console.log(`${client.user?.tag} としてログインしました`);
 
-  const commandsDir = path.resolve("./commands");
+  const commandsDir = path.resolve("./src/commands");   // package.json からの相対パス
   const commandFiles = fs.readdirSync(commandsDir).filter(file => file.endsWith(".ts"));
 
   Promise.all(
