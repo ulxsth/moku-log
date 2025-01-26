@@ -18,6 +18,7 @@ client.once('ready', () => {
     commandFiles.map(async (file) => {
       const filePath = path.join(commandsDir, file);
       const command = await import(filePath)
+
       if ('data' in command && 'execute' in command) {
         commands.set(command.data.name, command);
       } else {
