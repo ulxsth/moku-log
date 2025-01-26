@@ -4,9 +4,7 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 const BOT_TAG = client.user?.tag;
 
 client.once('ready', () => {
-  console.log(`${BOT_TAG} としてログインします...`);
-
-  console.log("ログインに成功しました");
+  console.log(`${BOT_TAG} としてログインしました`);
 });
 
 // 起動処理
