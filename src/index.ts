@@ -1,4 +1,4 @@
-import { Client, Collection, GatewayIntentBits, REST, Routes } from "discord.js";
+import { Client, Collection, CommandInteraction, Events, GatewayIntentBits, REST, Routes, type Interaction } from "discord.js";
 import type DiscordCommand from "./interfaces/discordCommand";
 import path from "path";
 import fs from "fs";
@@ -42,6 +42,20 @@ client.once('ready', () => {
       console.log(`${data.length} コマンドの更新が完了しました。`);
     })
 });
+
+client.on(Events.InteractionCreate, async (interaction: Interaction) => {
+  if(!interaction.isCommand()) return;
+
+  const command = commands.get(interaction.commandName);
+  if (command) {
+    try {
+      await command.execute(interaction as CommandInteraction);
+    } catch (error) {
+      console.error(error);
+      await interaction.reply({ content: 'コマンドの実行中にエラーが発生しました', ephemeral: true });
+    }
+  }
+})
 
 // 起動処理
 const token = process.env.DISCORD_TOKEN;
