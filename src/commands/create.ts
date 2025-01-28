@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ModalBuilder, SlashCommandBuilder, TextInputBuilder, type AnyComponentBuilder } from '@discordjs/builders';
+import { ActionRowBuilder, ModalBuilder, SlashCommandBuilder, TextInputBuilder } from '@discordjs/builders';
 import { CommandInteraction, TextInputStyle } from 'discord.js';
 
 const CMD_NAME = 'create';
@@ -21,29 +21,27 @@ const createModal = (): ModalBuilder => {
   const title = new TextInputBuilder()
     .setCustomId('activityTitle')
     .setLabel('イベント名')
-    .setStyle(TextInputStyle.Short)
-    .setRequired(true);
+    .setStyle(TextInputStyle.Short);
     actionRows.push(new ActionRowBuilder<TextInputBuilder>().addComponents(title));
 
   const description = new TextInputBuilder()
     .setCustomId('activityDescription')
     .setLabel('イベントの説明')
-    .setStyle(TextInputStyle.Paragraph);
+    .setStyle(TextInputStyle.Paragraph)
+    .setRequired(false);
     actionRows.push(new ActionRowBuilder<TextInputBuilder>().addComponents(description));
 
   const date = new TextInputBuilder()
     .setCustomId('activityDate')
     .setLabel('日時')
     .setPlaceholder('YYYY/MM/DD HH:MM')
-    .setStyle(TextInputStyle.Short)
-    .setRequired(true);
+    .setStyle(TextInputStyle.Short);
     actionRows.push(new ActionRowBuilder<TextInputBuilder>().addComponents(date));
 
   const channeiId = new TextInputBuilder()
     .setCustomId('activityChannelId')
     .setLabel('イベントチャンネル（ID）')
-    .setStyle(TextInputStyle.Short)
-    .setRequired(true);
+    .setStyle(TextInputStyle.Short);
     actionRows.push(new ActionRowBuilder<TextInputBuilder>().addComponents(channeiId));
 
   const modal = new ModalBuilder()
