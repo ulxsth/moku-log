@@ -1,12 +1,12 @@
-import { CommandInteraction, Events, type Interaction } from "discord.js";
+import { CommandInteraction, Events, ModalSubmitInteraction, type Interaction } from "discord.js";
 import { commands } from "..";
 
 export const name = Events.InteractionCreate;
 export const execute = async (interaction: Interaction) => {
   if (interaction.isCommand()) {
-    await handleCommandExecution(interaction as CommandInteraction);
+    await handleCommandExecution(interaction);
   } else if(interaction.isModalSubmit()) {
-    await handleModalSubmit(interaction as Interaction);
+    await handleModalSubmit(interaction);
   }
 }
 
@@ -23,6 +23,30 @@ async function handleCommandExecution(interaction: CommandInteraction) {
   }
 }
 
-async function handleModalSubmit(interaction: Interaction) {
-  console.log('Modal submitted');
+async function handleModalSubmit(interaction: ModalSubmitInteraction) {
+  const fields = interaction.fields;
+
+  switch (interaction.customId) {
+    case 'create_activity':
+      saveActivity(fields)
+        .then(() => {
+          const summary = [
+            `> イベント名: ${fields.getTextInputValue('name')}`,
+            `> 説明: ${fields.getTextInputValue('description') ?? 'なし'}`,
+            `> 開催日: ${fields.getTextInputValue('date')}`,
+            `> 開始時刻: ${fields.getTextInputValue('time')}`,
+            `> ボイスチャンネルID: ${fields.getTextInputValue('vc_channel')}`
+          ].join('\n');
+          interaction.reply({ content: `イベントを登録しました:\n${summary}` });
+        }).catch((error) => {
+          console.error(error);
+          interaction.reply({ content: 'イベントの登録中にエラーが発生しました' });
+        });
+      break;
+    default:
+  }
+}
+
+async function saveActivity(fields: any) {
+  // イベント情報をデータベースに保存する処理 
 }
