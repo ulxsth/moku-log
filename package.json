@@ -6,7 +6,8 @@
     "start": "bun run src/index.ts"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "prisma": "^6.3.0"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
