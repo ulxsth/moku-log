@@ -1,4 +1,4 @@
-import { CommandInteraction, Events, ModalSubmitInteraction, type Interaction } from "discord.js";
+import { CommandInteraction, Events, ModalSubmitFields, ModalSubmitInteraction, type Interaction } from "discord.js";
 import { commands } from "..";
 
 export const name = Events.InteractionCreate;
@@ -28,6 +28,8 @@ async function handleModalSubmit(interaction: ModalSubmitInteraction) {
 
   switch (interaction.customId) {
     case 'create_activity':
+      // TODO: fields のバリデーション
+
       saveActivity(fields)
         .then(() => {
           const summary = [
@@ -47,6 +49,6 @@ async function handleModalSubmit(interaction: ModalSubmitInteraction) {
   }
 }
 
-async function saveActivity(fields: any) {
-  // イベント情報をデータベースに保存する処理 
+async function saveActivity(fields: ModalSubmitFields) {
+  // TODO: イベント情報をデータベースに保存する処理
 }

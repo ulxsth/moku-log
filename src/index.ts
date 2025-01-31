@@ -42,6 +42,8 @@ async function loadEventListeners() {
       client.on(event.name, (...args) => event.execute(...args));
     }
   }
+
+  console.log(`${eventFiles.length} 個のイベントリスナーを読み込みました`);
 }
 
 /**
