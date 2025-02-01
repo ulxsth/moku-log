@@ -1,12 +1,13 @@
-import { CommandInteraction, Events, ModalSubmitFields, ModalSubmitInteraction, type Interaction } from "discord.js";
+import { CommandInteraction, Events, ModalSubmitInteraction, type Interaction } from "discord.js";
 import { commands } from "..";
 import { saveActivity } from "../db/activity";
+import { activityFormSchema } from "../forms/activity-forms";
 
 export const name = Events.InteractionCreate;
 export const execute = async (interaction: Interaction) => {
   if (interaction.isCommand()) {
     await handleCommandExecution(interaction);
-  } else if(interaction.isModalSubmit()) {
+  } else if (interaction.isModalSubmit()) {
     await handleModalSubmit(interaction);
   }
 }
@@ -29,7 +30,6 @@ async function handleModalSubmit(interaction: ModalSubmitInteraction) {
 
   switch (interaction.customId) {
     case 'create_activity':
-      // TODO: fields のバリデーション
       const name = fields.getTextInputValue('name');
       const description = fields.getTextInputValue('description');
       const date = fields.getTextInputValue('date');
@@ -37,22 +37,31 @@ async function handleModalSubmit(interaction: ModalSubmitInteraction) {
       const dateTime = new Date(`${date}T${time}:00`);
       const vcChannel = fields.getTextInputValue('vc_channel');
 
-      const data = { name, description, dateTime, vcChannel };
+      const activityData = { name, description, date, time, vcChannel };
+      const validationResult = activityFormSchema.safeParse(activityData);
+      if (!validationResult.success) {
+        const errorMessage = validationResult.error.errors.join('\n');
+        interaction.reply({ content: `ERROR: \n${errorMessage}` });
+        return
+      }
 
-      saveActivity(data)
-        .then(() => {
-          const summary = [
-            `> イベント名: ${fields.getTextInputValue('name')}`,
-            `> 説明: ${fields.getTextInputValue('description') ?? 'なし'}`,
-            `> 開催日: ${fields.getTextInputValue('date')}`,
-            `> 開始時刻: ${fields.getTextInputValue('time')}`,
-            `> ボイスチャンネルID: ${fields.getTextInputValue('vc_channel')}`
-          ].join('\n');
-          interaction.reply({ content: `イベントを登録しました:\n${summary}` });
-        }).catch((error) => {
+      const data = { name, description, dateTime, vcChannel };
+      const newActivity = await saveActivity(data)
+        .catch((error) => {
           console.error(error);
-          interaction.reply({ content: 'イベントの登録中にエラーが発生しました' });
+          interaction.reply({ content: 'イベントの登録中に予期せぬエラーが発生しました' });
         });
+
+      if (newActivity) {
+        const summary = [
+          `> イベント名: ${name}`,
+          `> 説明: ${description ?? 'なし'}`,
+          `> 開催日: ${date}`,
+          `> 開始時刻: ${time}`,
+          `> ボイスチャンネルID: ${vcChannel}`
+        ].join('\n');
+        interaction.reply({ content: `イベントを登録しました:\n${summary}` });
+      }
       break;
     default:
   }
