@@ -1,5 +1,6 @@
 import { CommandInteraction, Events, ModalSubmitFields, ModalSubmitInteraction, type Interaction } from "discord.js";
 import { commands } from "..";
+import { PrismaClient } from "@prisma/client";
 
 export const name = Events.InteractionCreate;
 export const execute = async (interaction: Interaction) => {
@@ -50,5 +51,24 @@ async function handleModalSubmit(interaction: ModalSubmitInteraction) {
 }
 
 async function saveActivity(fields: ModalSubmitFields) {
-  // TODO: イベント情報をデータベースに保存する処理
+  const prisma = new PrismaClient();
+
+  const name = fields.getTextInputValue('name');
+  const description = fields.getTextInputValue('description') || null;
+  const date = fields.getTextInputValue('date');
+  const time = fields.getTextInputValue('time');
+  const vcChannel = fields.getTextInputValue('vc_channel');
+
+  const activity = await prisma.activity.create({
+    data: {
+      name,
+      description,
+      date,
+      time,
+      vcChannel,
+    }
+  });
+
+  await prisma.$disconnect();
+  return activity;
 }

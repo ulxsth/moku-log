@@ -4,6 +4,7 @@
     "": {
       "name": "moku-log",
       "dependencies": {
+        "@prisma/client": "^6.3.0",
         "discord.js": "^14.17.3",
       },
       "devDependencies": {
@@ -27,6 +28,8 @@
     "@discordjs/util": ["@discordjs/util@1.1.1", "", {}, "sha512-eddz6UnOBEB1oITPinyrB2Pttej49M9FZQY8NxgEvc3tq6ZICZ19m70RsmzRdDHk80O9NoYN/25AqJl8vPVf/g=="],
 
     "@discordjs/ws": ["@discordjs/ws@1.2.0", "", { "dependencies": { "@discordjs/collection": "^2.1.0", "@discordjs/rest": "^2.4.1", "@discordjs/util": "^1.1.0", "@sapphire/async-queue": "^1.5.2", "@types/ws": "^8.5.10", "@vladfrangu/async_event_emitter": "^2.2.4", "discord-api-types": "^0.37.114", "tslib": "^2.6.2", "ws": "^8.17.0" } }, "sha512-QH5CAFe3wHDiedbO+EI3OOiyipwWd+Q6BdoFZUw/Wf2fw5Cv2fgU/9UEtJRmJa9RecI+TAhdGPadMaEIur5yJg=="],
+
+    "@prisma/client": ["@prisma/client@6.3.0", "", { "peerDependencies": { "prisma": "*", "typescript": ">=5.1.0" }, "optionalPeers": ["prisma", "typescript"] }, "sha512-BY3Fi28PUSk447Bpv22LhZp4HgNPo7NsEN+EteM1CLDnLjig5863jpW+3c3HHLFmml+nB/eJv1CjSriFZ8z7Cg=="],
 
     "@prisma/debug": ["@prisma/debug@6.3.0", "", {}, "sha512-m1lQv//0Rc5RG8TBpNUuLCxC35Ghi5XfpPmL83Gh04/GICHD2J5H2ndMlaljrUNaQDF9dOxIuFAYP1rE9wkXkg=="],
 
