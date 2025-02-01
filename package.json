@@ -3,11 +3,15 @@
   "module": "src/index.ts",
   "type": "module",
   "scripts": {
-    "start": "bun run src/index.ts"
+    "start": "bun run src/index.ts",
+    "test": "jest"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "prisma": "^6.3.0"
+    "@types/jest": "^29.5.14",
+    "prisma": "^6.3.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
