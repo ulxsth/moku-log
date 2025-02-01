@@ -37,8 +37,8 @@ const modalBuilder = (): ModalBuilder => {
   const dateInput = new TextInputBuilder()
     .setStyle(TextInputStyle.Short)
     .setCustomId('date')
-    .setLabel('開催日(YYYY/MM/DD)')
-    .setPlaceholder('例：2000/10/30');
+    .setLabel('開催日(YYYY-MM-DD)')
+    .setPlaceholder('例：2000-10-30');
   actionRows.push(new ActionRowBuilder<TextInputBuilder>().addComponents(dateInput));
 
   const timeInput = new TextInputBuilder()
