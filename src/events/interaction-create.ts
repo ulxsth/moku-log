@@ -1,6 +1,6 @@
 import { CommandInteraction, Events, ModalSubmitFields, ModalSubmitInteraction, type Interaction } from "discord.js";
 import { commands } from "..";
-import { PrismaClient } from "@prisma/client";
+import { saveActivity } from "../db/activity";
 
 export const name = Events.InteractionCreate;
 export const execute = async (interaction: Interaction) => {
@@ -30,8 +30,16 @@ async function handleModalSubmit(interaction: ModalSubmitInteraction) {
   switch (interaction.customId) {
     case 'create_activity':
       // TODO: fields のバリデーション
+      const name = fields.getTextInputValue('name');
+      const description = fields.getTextInputValue('description');
+      const date = fields.getTextInputValue('date');
+      const time = fields.getTextInputValue('time');
+      const dateTime = new Date(`${date}T${time}:00`);
+      const vcChannel = fields.getTextInputValue('vc_channel');
 
-      saveActivity(fields)
+      const data = { name, description, dateTime, vcChannel };
+
+      saveActivity(data)
         .then(() => {
           const summary = [
             `> イベント名: ${fields.getTextInputValue('name')}`,
@@ -48,25 +56,4 @@ async function handleModalSubmit(interaction: ModalSubmitInteraction) {
       break;
     default:
   }
-}
-
-async function saveActivity(fields: ModalSubmitFields) {
-  const prisma = new PrismaClient();
-
-  const name = fields.getTextInputValue('name');
-  const description = fields.getTextInputValue('description') || null;
-  const dateTime = new Date(`${fields.getTextInputValue('date')}T${fields.getTextInputValue('time')}:00`);
-  const vcChannel = fields.getTextInputValue('vc_channel');
-
-  const activity = await prisma.activity.create({
-    data: {
-      name,
-      description,
-      dateTime,
-      vcChannel,
-    }
-  });
-
-  await prisma.$disconnect();
-  return activity;
 }
