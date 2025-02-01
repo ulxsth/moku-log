@@ -11,8 +11,7 @@ model Activity {
   id          String   @id @default(cuid())
   name        String
   description String?
-  date        DateTime
-  time        String
+  dateTime    DateTime
   vcChannel   String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
