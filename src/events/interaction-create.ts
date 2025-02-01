@@ -55,12 +55,8 @@ async function saveActivity(fields: ModalSubmitFields) {
 
   const name = fields.getTextInputValue('name');
   const description = fields.getTextInputValue('description') || null;
-  const date = fields.getTextInputValue('date');
-  const time = fields.getTextInputValue('time');
+  const dateTime = new Date(`${fields.getTextInputValue('date')}T${fields.getTextInputValue('time')}:00`);
   const vcChannel = fields.getTextInputValue('vc_channel');
-
-  // Prisma の DateTime は ISO 8601 形式の文字列を受け付ける
-  const dateTime = `${date}T${time.slice(0, 2)}:${time.slice(2)}:00.000Z`;
 
   const activity = await prisma.activity.create({
     data: {
