@@ -1,14 +1,14 @@
-import { client, commands } from ".";
-
-import * as fs from "fs";
-import * as path from "path";
 import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
+import { Client, Collection } from "discord.js";
+import * as fs from "fs";
+import * as path from "path";
+import DiscordCommand from "./interfaces/discordCommand";
 
 /**
  * events フォルダ内に定義されたイベントリスナーを読み込んで登録する。
  */
-export async function loadEventListeners() {
+export async function loadEventListeners(client: Client) {
   const eventsDir = path.resolve("./src/events");
   const eventFiles = fs.readdirSync(eventsDir).filter(file => file.endsWith(".ts"));
   for (const file of eventFiles) {
@@ -27,7 +27,7 @@ export async function loadEventListeners() {
 /**
  * commands フォルダ内に定義されたコマンドを読み込んで登録する。
  */
-export async function loadCommands() {
+export async function loadCommands(commands: Collection<string, DiscordCommand>) {
   const commandsDir = path.resolve("./src/commands");
   const commandFiles = fs.readdirSync(commandsDir).filter(file => file.endsWith(".ts"));
 
