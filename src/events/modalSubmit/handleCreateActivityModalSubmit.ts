@@ -1,6 +1,6 @@
 import type { ModalSubmitInteraction } from "discord.js";
 import { saveActivity } from "../../db/activity";
-import { validateActivityForm } from "../../validators/activityForms";
+import { validateActivityForm } from "../../validators/activityForm";
 
 export const handleCreateActivityModalSubmit = async (interaction: ModalSubmitInteraction) => {
   const fields = interaction.fields;

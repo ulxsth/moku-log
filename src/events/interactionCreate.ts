@@ -1,5 +1,5 @@
 import { Collection, CommandInteraction, Events, ModalSubmitInteraction, type Interaction } from "discord.js";
-import { handleCreateActivityModalSubmit } from "./modal-submit/handleCreateActivityModalSubmit";
+import { handleCreateActivityModalSubmit } from "./modalSubmit/handleCreateActivityModalSubmit";
 import DiscordCommand from "@/interfaces/discordCommand";
 
 export const name = Events.InteractionCreate;
