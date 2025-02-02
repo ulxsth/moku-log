@@ -11,7 +11,7 @@ const main = async () => {
   const commands = new Collection<string, DiscordCommand>()
 
   loadCommands(commands);
-  await loadEventListeners(client);
+  await loadEventListeners(client, commands);
   fire(client);
 }
 main();

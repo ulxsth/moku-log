@@ -8,16 +8,18 @@ import DiscordCommand from "./interfaces/discordCommand";
 /**
  * events フォルダ内に定義されたイベントリスナーを読み込んで登録する。
  */
-export async function loadEventListeners(client: Client) {
+export async function loadEventListeners(client: Client, commands: Collection<string, DiscordCommand>) {
   const eventsDir = path.resolve("./src/events");
   const eventFiles = fs.readdirSync(eventsDir).filter(file => file.endsWith(".ts"));
+
   for (const file of eventFiles) {
     const filePath = path.join(eventsDir, file);
+    
     const event = await import(filePath);
     if (event.once) {
-      client.once(event.name, (...args) => event.execute(...args));
+      client.once(event.name, (...args) => event.execute(...args, commands));
     } else {
-      client.on(event.name, (...args) => event.execute(...args));
+      client.on(event.name, (...args) => event.execute(...args, commands));
     }
   }
 
