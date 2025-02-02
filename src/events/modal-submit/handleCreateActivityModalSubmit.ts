@@ -1,6 +1,6 @@
 import type { ModalSubmitInteraction } from "discord.js";
 import { saveActivity } from "../../db/activity";
-import { activityFormSchema } from "../../forms/activityForms";
+import { validateActivityForm } from "../../validators/activityForms";
 
 export const handleCreateActivityModalSubmit = async (interaction: ModalSubmitInteraction) => {
   const fields = interaction.fields;
@@ -13,7 +13,7 @@ export const handleCreateActivityModalSubmit = async (interaction: ModalSubmitIn
   const vcChannel = fields.getTextInputValue('vc_channel');
 
   const activityData = { name, description, date, time, vcChannel };
-  const validationResult = activityFormSchema.safeParse(activityData);
+  const validationResult = validateActivityForm(activityData);
   if (!validationResult.success) {
     const errorMessage = validationResult.error.errors.map(err => err.message).join('\n');
     interaction.reply({ content: `ERROR: \n${errorMessage}` });

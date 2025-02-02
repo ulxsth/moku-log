@@ -11,7 +11,6 @@ export const execute = async (interaction: Interaction, commands: Collection<str
   }
 }
 
-
 async function handleCommandExecution(interaction: CommandInteraction, commands: Collection<string, DiscordCommand>) {
   const command = commands.get(interaction.commandName);
   if (command) {
