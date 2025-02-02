@@ -1,7 +1,7 @@
 import { client, commands } from ".";
 
-import fs from "fs";
-import path from "path";
+import * as fs from "fs";
+import * as path from "path";
 import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
 
